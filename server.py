@@ -1,7 +1,6 @@
 import socket
 import random
 import math
-import binascii
 
 
 def isPrime(num):
