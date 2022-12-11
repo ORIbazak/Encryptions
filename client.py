@@ -1,6 +1,6 @@
 import socket
-import pickle
 import math
+
 def encrypt(e,n , m):
     return((m**e)%n)
 
