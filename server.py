@@ -2,7 +2,6 @@ import socket
 import random
 import math
 
-
 def isPrime(num):
     for n in range (num):
         if(n>1):
@@ -15,12 +14,12 @@ def gcd(x,y):
         if(x%i==0 and y%i ==0 ):
             z = i
     return z
-def getE(phi,n):
-    e  = random.randrange(3,n-1,2)
+def getE(phi):
+    e  = random.randrange(3,phi,2)
     if(gcd(phi,e)==1):
         return e
     else:
-        return getE(phi,n)
+        return getE(phi)
 
 def generateKeys():
     q = random.randint(3,100)
@@ -34,16 +33,17 @@ def generateKeys():
 
 def preperations():
     p, q = generateKeys()
+
     n = p * q
     phi = (q - 1) * (p - 1)
-
-    e = getE(phi, n)
-    k = 2
-    d = (k * (phi) + 1) / e
-    if d%1 !=0:
+    k =2
+    e = getE(phi)
+    d = ( k*(phi) + 1) / e
+    if not(d%1==0) or isPrime(int(d)):
         return preperations()
     else:
         d = int(d)
+        print(f"{q} is Q and {p} is P")
         return e,d,n,phi
 
 def decyrypt(C, d,n):
@@ -52,6 +52,7 @@ def decyrypt(C, d,n):
 def main():
     #preparations
     e,d,n,phi = preperations()
+
     print(f"**** {n} IS n VALUE , {phi} IS phi VALUE, {e} IS e VALUE , {d} IS D VALUE*****")
 
     #server setup
@@ -72,19 +73,16 @@ def main():
 
     while True:
         encrypted_msg = int(conn.recv(1024).decode())
+
         if(encrypted_msg == 270): #C when char is p (p for pause)
             break
         msg = decyrypt(encrypted_msg,d,n)
         conn.send(str(msg).encode())
-        
-    client.close()
+    conn.close()
+    server.close()
     
     
 
 
 if __name__ == "__main__":
     main()
-
-
-
-
