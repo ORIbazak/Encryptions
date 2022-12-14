@@ -39,7 +39,7 @@ def preperations():
     k =2
     e = getE(phi)
     d = ( k*(phi) + 1) / e
-    if not(d%1==0) or isPrime(int(d)):
+    if not(d%1==0) or not (d%e==1):
         return preperations()
     else:
         d = int(d)
