@@ -16,7 +16,7 @@ def gcd(x,y):
     return z
 def getE(phi):
     e  = random.randrange(3,phi,2)
-    if(gcd(phi,e)==1):
+    if(math.gcd(phi,e)==1):
         return e
     else:
         return getE(phi)
